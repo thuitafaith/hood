@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+{{profile_data.location}}
+{{profile_data.bio}}
+{{profile_data.email_confirmed}}
+
+<div class="col 12 m8 offset-m2">
+    <div class="card">
+      <div class="card-content">
+        <h2 class="flow-text">Update Your Profile</h2>
+        <form class="padding" action="." method="POST" enctype="multipart/form-data">
+          {% csrf_token %} {{ created_user.as_p }}
+          <div class="divider"></div>
+          {{ formset.management_form }}
+              {{ formset.as_p }}
+          <button type="submit" class="btn-floating btn-large waves-light waves-effect"><i class="large material-icons">done</i></button>
+        </form>
+
+      </div>
+
+    </div>
+
+</div>
+{% endblock %}

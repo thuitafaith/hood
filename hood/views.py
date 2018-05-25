@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.contrib.auth import login, authenticate,logout
-from hood.forms import SignUpForm
+from hood.forms import SignUpForm,EditForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes,force_text
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
@@ -8,6 +8,9 @@ from django.template.loader import render_to_string
 from hood.tokens import account_activation_token
 from .models import Profile,Business,Neighborhood
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.forms.models import inlineformset_factory
 
 # Create your views here.
 def signup(request):
@@ -50,3 +53,38 @@ def account_activation_sent(request):
     if current_user.is_authenticated():
         return HttpResponseRedirect('intro')
     return render(request, 'registration/account_activation_sent.html')
+
+@login_required(login_url='/login')
+def index(request):
+    current_user = request.user
+    profile = Profile.objects.all()
+
+
+    return render(request, 'index.html')
+
+@login_required(login_url='/login')
+def profile(request):
+    current_user = request.user
+    profile_info = User.objects.get(id=current_user.id)
+
+    edit_form = EditForm(instance=current_user)
+
+    ProfileInlineFormset = inlineformset_factory(User, Profile, fields=('location', 'bio','national_identity','neighborhood'))
+    formset = ProfileInlineFormset(instance=current_user)
+
+    if current_user.is_authenticated() and request.user.id == current_user.id:
+        if request.method == "POST":
+            edit_form = EditForm(request.POST,request.FILES,instance=current_user)
+            formset = ProfileInlineFormset(request.POST,request.FILES,instance=current_user)
+
+            if edit_form.is_valid():
+                created_user = edit_form.save(commit=False)
+                formset = ProfileInlineFormset(request.POST,request.FILES,instance=created_user)
+
+                if formset.is_valid():
+                    created_user.save()
+                    formset.save()
+                    return HttpResponseRedirect(current_user)
+        return render(request, 'profile.html', {'profile_data': profile_info, "formset": formset, 'created_user': edit_form})
+    else:
+        raise PermissionDenied
