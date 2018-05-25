@@ -18,8 +18,8 @@ def signup(request):
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
-            subject = 'Activate Your MySite Account'
-            message = render_to_string('account_activation_email.html', {
+            subject = 'Activate Your MY HOOD Account'
+            message = render_to_string('registration/account_activation.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -45,18 +45,8 @@ def activate(request, uidb64, token):
         return redirect('home')
     else:
         return render(request, 'registration/account_activation_invalid.html')
-def activate(request, uidb64, token):
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.profile.email_confirmed = True
-        user.save()
-        login(request, user)
-        return redirect('signup')
-    else:
-        return render(request, 'registration/account_activation_invalid.html')
+def account_activation_sent(request):
+    current_user = request.user
+    if current_user.is_authenticated():
+        return HttpResponseRedirect('intro')
+    return render(request, 'registration/account_activation_sent.html')
