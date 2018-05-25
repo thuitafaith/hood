@@ -1,9 +1,9 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect
-from django.contrib.auth import login, authenticate,login, logout
+from django.contrib.auth import login, authenticate,logout
 from hood.forms import SignUpForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes,force_text
-from django.utils.http import urlsafe_base64_encode,urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.template.loader import render_to_string
 from hood.tokens import account_activation_token
 from .models import Profile,Business,Neighborhood
@@ -26,7 +26,7 @@ def signup(request):
                 'token': account_activation_token.make_token(user),
             })
             user.email_user(subject, message)
-            return redirect('registration/account_activation_sent')
+            return redirect('registration/account_activation_sent.html')
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
@@ -42,7 +42,7 @@ def activate(request, uidb64, token):
         user.profile.email_confirmed = True
         user.save()
         login(request, user)
-        return redirect('home')
+        return redirect('index')
     else:
         return render(request, 'registration/account_activation_invalid.html')
 def account_activation_sent(request):
