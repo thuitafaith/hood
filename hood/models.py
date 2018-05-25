@@ -16,6 +16,8 @@ class Profile(models.Model):
 
     def save_profile(self):
         self.save()
+    def delete_profile(self):
+        self.delete()
 """
 Initialiazing the Neighborhood model
 
