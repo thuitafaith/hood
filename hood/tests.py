@@ -23,3 +23,12 @@ class ProfileTestClass(TestCase):
         profile = Profile.objects.all()
         self.new_profile.delete_profile()
         self.assertTrue(len(profile)==0)
+    # def test_update_method(self):
+    #     self.new_profile.save_profile()
+    #     self.new_profile.update_profile(self.new_profile.id,bio='this is a neighbor',location='neighbor',national_identity='12345678',user_profile=self.user)
+    #     profile = Profile.objects.filter.all()
+    #     self.assertTrue(len(image)==1)
+    def test_get_profile_by_id(self):
+        find_profile = self.new_profile.get_profile_by_id(self.new_profile.id)
+        prof = Profile.objects.filter(id=self.new_profile.id)
+        self.assertTrue(find_profile,prof)
