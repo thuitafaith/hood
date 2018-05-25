@@ -12,6 +12,7 @@ class Profile(models.Model):
     location= models.CharField(max_length=100,null=True)
     email= models.CharField(max_length=100)
     national_identity = models.CharField(max_length=50)
+    neighborhood = models.ForeignKey('Neighborhood', related_name ='hood_area',null=True)
 """
 Initialiazing the Neighborhood model
 
@@ -19,7 +20,7 @@ Initialiazing the Neighborhood model
 class Neighborhood(models.Model):
     name = models.CharField(max_length=80,default=False)
     location = models.CharField(max_length=60,null=True)
-    user_profile = models.ForeignKey('Profile',null=True)
+    user_profile = models.ForeignKey('Profile',null=True,related_name ='hood_owner')
 """
 Initialiazing the Business model
 
