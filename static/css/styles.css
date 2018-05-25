@@ -52,9 +52,10 @@ input{
 }
 button{
   border-radius: 15%;
-  backgrou;
   width: 30%;
   height: 6vh;
+  background-color: #48E7A1;
+
 }
 .well {
   width: 30%;
