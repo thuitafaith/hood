@@ -13,6 +13,9 @@ class Profile(models.Model):
     email= models.CharField(max_length=100)
     national_identity = models.CharField(max_length=50)
     neighborhood = models.ForeignKey('Neighborhood', related_name ='hood_area',null=True)
+
+    def save_profile(self):
+        self.save()
 """
 Initialiazing the Neighborhood model
 
