@@ -10,7 +10,7 @@ Initialiazing the Profile model
 """
 class Profile(models.Model):
     user_profile = models.OneToOneField(User)
-    profile_photo = models.ImageField(upload_to='pics/',null=True,blank
+    user_photo = models.ImageField(upload_to='pics/',null=True,blank
                                       =True)
     name= models.CharField(max_length=80,default=False)
     bio = models.TextField(blank=True,null=True)
