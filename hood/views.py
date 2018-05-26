@@ -88,3 +88,20 @@ def profile(request):
         return render(request, 'profile.html', {'profile_data': profile_info, "formset": formset, 'created_user': edit_form})
     else:
         raise PermissionDenied
+@login_required(login_url='/login')
+def profile_dis(request,username):
+    user = User.objects.get(username=username)
+    if not user:
+        return redirect('intro')
+    profile = Profile.objects.get(user=user)
+
+    name = f"{user.username}"
+    return render(request, prof_display.html, {"name":name,"user":user,"profile":profile})
+@login_required(login_url='/login')
+def profile_info(request):
+    current_user = request.user
+
+    profile_info = Profile.objects.filter(user_profile=current_user.id).all()
+    for p in profile_info:
+        print(p.email_confirmed)
+    return render(request, 'prof_display.html', {'profile_data': profile_info})
