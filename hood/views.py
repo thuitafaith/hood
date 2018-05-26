@@ -69,7 +69,7 @@ def profile(request):
 
     edit_form = EditForm(instance=current_user)
 
-    ProfileInlineFormset = inlineformset_factory(User, Profile, fields=('location', 'bio','national_identity','neighborhood'))
+    ProfileInlineFormset = inlineformset_factory(User, Profile, fields=('profile_photo','location', 'bio','national_identity','neighborhood'))
     formset = ProfileInlineFormset(instance=current_user)
 
     if current_user.is_authenticated() and request.user.id == current_user.id:
