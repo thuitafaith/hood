@@ -69,7 +69,7 @@ def profile(request):
 
     edit_form = EditForm(instance=current_user)
 
-    ProfileInlineFormset = inlineformset_factory(User, Profile, fields=('profile_photo','location', 'bio','national_identity','neighborhood'))
+    ProfileInlineFormset = inlineformset_factory(User, Profile, fields=('user_photo','location', 'bio','national_identity','neighborhood'))
     formset = ProfileInlineFormset(instance=current_user)
 
     if current_user.is_authenticated() and request.user.id == current_user.id:
@@ -88,15 +88,15 @@ def profile(request):
         return render(request, 'profile.html', {'profile_data': profile_info, "formset": formset, 'created_user': edit_form})
     else:
         raise PermissionDenied
-# @login_required(login_url='/login')
-# def profile_dis(request,username):
-#     user = User.objects.get(username=username)
-#     if not user:
-#         return redirect('index')
-#     profile = Profile.objects.get(user=user)
-#
-#     name = f"{user.username}"
-#     return render(request, prof_display.html, {"name":name,"user":user,"profile":profile})
+@login_required(login_url='/login')
+def profile_dis(request,username):
+    user = User.objects.get(username=username)
+    if not user:
+        return redirect('index')
+    profile = Profile.objects.get(user=user)
+
+    name = f"{user.username}"
+    return render(request, prof_display.html, {"name":name,"user":user,"profile":profile})
 @login_required(login_url='/login')
 def profile_info(request):
     current_user = request.user
