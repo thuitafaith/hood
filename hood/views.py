@@ -118,18 +118,13 @@ def profile_info(request):
 @login_required(login_url='/login')
 def hood(request):
     current_user = request.user
-    user_profile = Profile.objects.get(user_profile=current_user)
-    profile_instance = Profile.objects.get(id=request.user.id)
+    if request.method == 'POST' and 'Nome' in request.POST:
+        name = request.POST.get('Nome')
+        location = request.POST.get('Cognome')
 
+        user_profile = Profile.objects.get(user_profile=current_user)
 
-    if request.method == 'POST':
-        form = HoodForm(request.POST, request.FILES)
-        if form.is_valid():
-            hood = form.save(commit=False)
-            hood.user_profile = user_profile
+        new_hood = Neighborhood(name=name,location=location,hood_admin=user_profile)
 
-            hood.save()
-        return redirect(index)
-    else:
-        form = HoodForm()
-    return render(request, 'hood.html', {"form": form})
+        user_profile.update_profile_hood(user_profile.id, new_hood)
+    return render(request, 'hood.html')
