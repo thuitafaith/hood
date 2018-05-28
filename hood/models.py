@@ -25,6 +25,10 @@ class Profile(models.Model):
         self.delete()
 
     @classmethod
+    def update_profile_hood(cls, user_id, value):
+        cls.objects.filter(user_profile=user_id).update(neighborhood=value)
+
+    @classmethod
     def update_profile_neighborhood(cls,user_id,value):
         cls.objects.filter(user_profile=id).update(profile_neighborhood=value)
 

@@ -102,13 +102,14 @@ def reg_business(request):
     current_user = request.user
     user_profile = Profile.objects.get(user_profile=current_user)
     profile_instance = Profile.objects.get(id=request.user.id)
-    n_instance = Neighborhood.objects.filter(name=user_profile.neighborhood.name)
+    p_place = profile_instance.neighborhood.name
+    neighborhood_instance = Neighborhood.objects.get(name=p_place)
 
     if request.method == 'POST'and 'Business' in request.POST:
         business_name = request.POST.get('Business')
         email = request.POST.get('Email')
         user_profile = Profile.objects.get(user_profile=current_user)
-        business = Business(business_name=business_name,email=email,user_profile=user_profile,neighborhood=neighborhood)
+        business = Business(business_name=business_name,email=email,user_profile=user_profile,neighborhood=neighborhood_instance)
         business.save()
 
     return render(request, 'business.html')
@@ -119,10 +120,18 @@ def hood(request):
         name = request.POST.get('Nome')
         location = request.POST.get('Cognome')
 
-        user_profile = Profile.objects.get(user_profile=current_user)
+        user_profile = Profile.objects.get(id=request.user.id)
 
         new_hood = Neighborhood(name=name,location=location,user_profile=user_profile)
         new_hood.save()
-
+        user_profile.update_profile_hood(user_profile.id,new_hood)
 
     return render(request, 'hood.html')
+@login_required(login_url='/login')
+def business_dis(request):
+    current_user = request.user
+    business = Business.objects.all()
+    business = []
+    for business in businesses:
+        business.append((business.filter(user_profile=request.user)))
+    return render(request, 'business_display.html')
