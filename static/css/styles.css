@@ -39,7 +39,7 @@ nav ul li a:hover {
   color: rgba(0, 35, 122, 0.7);
 }
 body{
-  background-color: #C4DCD2;
+  background-color: #9C9F9B;
 }
 input{
   background-color: #F8FEFE;
@@ -47,7 +47,10 @@ input{
   border:thin solid black;
   outline: none;
 }
-
+button{
+  border-radius: 10%;
+  background-color: #5BB751;
+}
 .well {
   width: 30%;
   height:60vh;

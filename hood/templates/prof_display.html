@@ -25,7 +25,9 @@
 		<div class="col-md-3">
 
 		  <div class="prof-img">
+				{% if  profile.user_photo %}
 		  <img src="{{ profile.user_photo.url }}">
+			{% endif %}
 		  <div class="img-title">
 		     <h2>{{ profile.username }}</h2>
 		  </div>
