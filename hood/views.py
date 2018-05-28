@@ -132,6 +132,17 @@ def business_dis(request):
     current_user = request.user
     businesses = Business.objects.all()
     business = []
-    # for bu in businesses:
-    #     business.append((bu.filter(user_profile=request.user)))
+
     return render(request, 'business_display.html',{'businesses':businesses})
+@login_required(login_url='/login')
+def new_post(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = NewPostForm(request.POST,request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.editor = current_user
+            post.save()
+    else:
+        form = NewPostForm()
+    return render(request, 'new_post.html', {"form":form})
