@@ -35,7 +35,7 @@ Initialiazing the Neighborhood model
 
 """
 class Neighborhood(models.Model):
-    name = models.CharField(max_length=80,default=False)
+    name = models.CharField(max_length=80)
     location = models.CharField(max_length=60,null=True)
     user_profile = models.ForeignKey('Profile',null=True,related_name ='hood_owner')
 """
