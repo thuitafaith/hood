@@ -58,3 +58,9 @@ class Business(models.Model):
     email = models.CharField(max_length=80)
     neighborhood = models.ForeignKey('Neighborhood')
     user_profile = models.ForeignKey('Profile')
+class Post(models.Model):
+    title = models.CharField(max_length=80)
+    description = models.TextField()
+    editor = models.ForeignKey(User)
+    pub_date = models.DateTimeField(auto_now_add=True)
+    post_image = models.ImageField(upload_to='pics/',null=True)

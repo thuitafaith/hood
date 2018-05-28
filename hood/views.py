@@ -130,8 +130,8 @@ def hood(request):
 @login_required(login_url='/login')
 def business_dis(request):
     current_user = request.user
-    business = Business.objects.all()
+    businesses = Business.objects.all()
     business = []
-    for business in businesses:
-        business.append((business.filter(user_profile=request.user)))
-    return render(request, 'business_display.html')
+    # for bu in businesses:
+    #     business.append((bu.filter(user_profile=request.user)))
+    return render(request, 'business_display.html',{'businesses':businesses})

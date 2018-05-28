@@ -7,21 +7,47 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
-
 <div class="container">
-  <h1 class=text-center>Search for businesses around the neighborhood</h1><br><hr>
-<div class="row">
-  <div class="col-xs-10 col-xs-offset-1">
-  <form action="#" method="#" role="search">
-  <div class="input-group">
-  <input class="form-control" placeholder="Search . . ." name="srch-term" id="ed-srch-term" type="text">
-  <div class="input-group-btn">
-  <button type="submit" id="searchbtn">
-  search</button>
-  </div>
-  </div>
-  </form>
-  </div>
-</div>
+	<div class="row">
+
+	    <div class="col-md-8 col-md-offset-2">
+
+    		<h1>Create post</h1>
+
+    		<form action="" method="POST">
+
+    		    <div class="form-group has-error">
+    		        <label for="slug">HOOD POST </label>
+    		        <input type="text" class="form-control" name="slug" />
+
+    		    </div>
+
+    		    <div class="form-group">
+    		        <label for="title">Title <span class="require">*</span></label>
+    		        <input type="text" class="form-control" name="title" />
+    		    </div>
+
+    		    <div class="form-group">
+    		        <label for="description">Description</label>
+    		        <textarea rows="5" class="form-control" name="description" ></textarea>
+    		    </div>
+
+    		    <div class="form-group">
+    		        <p><span class="require">*</span> - required fields</p>
+    		    </div>
+
+    		    <div class="form-group">
+    		        <button type="submit" class="btn btn-primary">
+    		            Create
+    		        </button>
+    		        <button class="btn btn-default">
+    		            Cancel
+    		        </button>
+    		    </div>
+
+    		</form>
+		</div>
+
+	</div>
 </div>
 {% endblock %}

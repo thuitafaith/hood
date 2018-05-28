@@ -120,3 +120,8 @@ button{
     height: auto;
 border-radius: 0 50px 50px 0 !important;
 }
+
+label small {
+    color: #999;
+    font-weight: normal;
+}
