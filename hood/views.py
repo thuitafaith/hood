@@ -97,18 +97,39 @@ def profile_info(request):
     for p in profile_info:
         print(p.email_confirmed)
     return render(request, 'prof_display.html', {'profile_data': profile_info})
+# @login_required(login_url='/login')
+# def business(request):
+#     current_user = request.user
+#     user_profile = Profile.objects.get(user_profile=current_user)
+#     profile_instance = Profile.objects.get(id=request.user.id)
+#     #n_instance = Neighborhood.objects.filter(name=user_profile.neighborhood.name)
+#
+#     if request.method == 'POST':
+#         form = BusinessForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             business = form.save(commit=False)
+#             business.user_profile = user_profile
+#
+#             business.save()
+#         return redirect(index)
+#     else:
+#         form = BusinessForm()
+#     return render(request, 'business.html', {"form": form})
 @login_required(login_url='/login')
-def business(request):
+def hood(request):
     current_user = request.user
     user_profile = Profile.objects.get(user_profile=current_user)
+    profile_instance = Profile.objects.get(id=request.user.id)
+
 
     if request.method == 'POST':
-        form = BusinessForm(request.POST, request.FILES)
+        form = HoodForm(request.POST, request.FILES)
         if form.is_valid():
-            business = form.save(commit=False)
-            business.user_profile = user_profile
-            business.save()
+            hood = form.save(commit=False)
+            hood.user_profile = user_profile
+
+            hood.save()
         return redirect(index)
     else:
-        form = BusinessForm()
-    return render(request, 'business.html', {"form": form})
+        form = HoodForm()
+    return render(request, 'hood.html', {"form": form})

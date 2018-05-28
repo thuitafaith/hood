@@ -43,7 +43,7 @@ Initialiazing the Business model
 
 """
 class Business(models.Model):
-    business_name = models.CharField(max_length=80,default=False)
+    business_name = models.CharField(max_length=80)
     email = models.CharField(max_length=80)
     neighborhood = models.ForeignKey('Neighborhood')
-    user_profile = models.ForeignKey('Profile',null=True)
+    user_profile = models.ForeignKey('Profile')
