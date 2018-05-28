@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.contrib.auth import login, authenticate,logout
-from hood.forms import SignUpForm,EditForm
+from hood.forms import SignUpForm,EditForm,BusinessForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes,force_text
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
@@ -88,15 +88,7 @@ def profile(request):
         return render(request, 'profile.html', {'profile_data': profile_info, "formset": formset, 'created_user': edit_form})
     else:
         raise PermissionDenied
-@login_required(login_url='/login')
-def profile_dis(request,username):
-    user = User.objects.get(username=username)
-    if not user:
-        return redirect('index')
-    profile = Profile.objects.get(user=user)
 
-    name = f"{user.username}"
-    return render(request, prof_display.html, {"name":name,"user":user,"profile":profile})
 @login_required(login_url='/login')
 def profile_info(request):
     current_user = request.user
@@ -105,3 +97,18 @@ def profile_info(request):
     for p in profile_info:
         print(p.email_confirmed)
     return render(request, 'prof_display.html', {'profile_data': profile_info})
+@login_required(login_url='/login')
+def business(request):
+    current_user = request.user
+    user_profile = Profile.objects.get(user_profile=current_user)
+
+    if request.method == 'POST':
+        form = BusinessForm(request.POST, request.FILES)
+        if form.is_valid():
+            business = form.save(commit=False)
+            business.user_profile = user_profile
+            business.save()
+        return redirect(index)
+    else:
+        form = BusinessForm()
+    return render(request, 'business.html', {"form": form})
