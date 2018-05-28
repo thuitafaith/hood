@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.contrib.auth import login, authenticate,logout
-from hood.forms import SignUpForm,EditForm,HoodForm
+from hood.forms import SignUpForm,EditForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes,force_text
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
@@ -97,24 +97,21 @@ def profile_info(request):
     for p in profile_info:
         print(p.email_confirmed)
     return render(request, 'prof_display.html', {'profile_data': profile_info})
-# @login_required(login_url='/login')
-# def business(request):
-#     current_user = request.user
-#     user_profile = Profile.objects.get(user_profile=current_user)
-#     profile_instance = Profile.objects.get(id=request.user.id)
-#     #n_instance = Neighborhood.objects.filter(name=user_profile.neighborhood.name)
-#
-#     if request.method == 'POST':
-#         form = BusinessForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             business = form.save(commit=False)
-#             business.user_profile = user_profile
-#
-#             business.save()
-#         return redirect(index)
-#     else:
-#         form = BusinessForm()
-#     return render(request, 'business.html', {"form": form})
+@login_required(login_url='/login')
+def reg_business(request):
+    current_user = request.user
+    user_profile = Profile.objects.get(user_profile=current_user)
+    profile_instance = Profile.objects.get(id=request.user.id)
+    n_instance = Neighborhood.objects.filter(name=user_profile.neighborhood.name)
+
+    if request.method == 'POST'and 'Business' in request.POST:
+        business_name = request.POST.get('Business')
+        email = request.POST.get('Email')
+        user_profile = Profile.objects.get(user_profile=current_user)
+        business = Business(business_name=business_name,email=email,user_profile=user_profile,neighborhood=neighborhood)
+        business.save()
+
+    return render(request, 'business.html')
 @login_required(login_url='/login')
 def hood(request):
     current_user = request.user
@@ -124,7 +121,8 @@ def hood(request):
 
         user_profile = Profile.objects.get(user_profile=current_user)
 
-        new_hood = Neighborhood(name=name,location=location,hood_admin=user_profile)
+        new_hood = Neighborhood(name=name,location=location,user_profile=user_profile)
+        new_hood.save()
 
-        user_profile.update_profile_hood(user_profile.id, new_hood)
+
     return render(request, 'hood.html')

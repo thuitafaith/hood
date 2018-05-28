@@ -8,6 +8,7 @@ urlpatterns=[
     url(r'^profile/',views.profile, name = 'profile'),
     url(r'^profile_info/$', views.profile_info, name='user_profile'),
     url(r'^hood/', views.hood, name = 'hood'),
+    url(r'^business/', views.reg_business, name = 'business'),
 
 ]
 if settings.DEBUG:

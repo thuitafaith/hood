@@ -1,22 +1,43 @@
 {% extends 'base.html' %}
 {% block content %}
-  <form  action="{%url 'business'%}" method="post" enctype="multipart/form-data">
-    {%csrf_token%}
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <input type="hidden" name="next" value="{{ next }}" />
-      {% for field in form %}
-        <p>
-          {{ field.label_tag }}<br>
-          {{ field }}<br>
-          {% for error in field.errors %}
-            <p style="color: red">{{ error }}</p>
-          {% endfor %}
-          {% if field.help_text %}
-            <p><small style="color: grey">{{ field.help_text }}</small></p>
-          {% endif %}
-        </p>
-      {% endfor %}
-      <button type="submit">Submit</button>
-  </form>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<form class="form-horizontal" action="{%url 'business' %}" method="post" >
+{% csrf_token %}
+<fieldset>
+
+<!-- Form Name -->
+<legend>REGISTER BUSINESS</legend>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="Business">Business Name</label>
+<div class="col-md-4">
+<input id="Business" name="Business" type="text" placeholder="" class="form-control input-md" required>
+
+</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="Cognome">Business Email</label>
+<div class="col-md-4">
+<input id="Email" name="Email" type="text" placeholder="" class="form-control input-md" required>
+
+</div>
+</div>
+
+<div class="form-group">
+<label class="col-md-4 control-label" for="Invio"></label>
+<div class="col-md-4">
+<button id="Invio" action=""name="Invio" class="btn btn-primary">Submit</button>
+</div>
+</div>
+
+</fieldset>
+
+</form>
 {% endblock %}

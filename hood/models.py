@@ -23,6 +23,11 @@ class Profile(models.Model):
         self.save()
     def delete_profile(self):
         self.delete()
+
+    @classmethod
+    def update_profile_neighborhood(cls,user_id,value):
+        cls.objects.filter(user_profile=id).update(profile_neighborhood=value)
+
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -38,6 +43,8 @@ class Neighborhood(models.Model):
     name = models.CharField(max_length=80)
     location = models.CharField(max_length=60,null=True)
     user_profile = models.ForeignKey('Profile',null=True,related_name ='hood_owner')
+
+
 """
 Initialiazing the Business model
 
