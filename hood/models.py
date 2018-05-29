@@ -48,6 +48,9 @@ class Neighborhood(models.Model):
     location = models.CharField(max_length=60,null=True)
     user_profile = models.ForeignKey('Profile',null=True,related_name ='hood_owner')
 
+    def __str__(self):
+        return str(self.name)
+
 
 """
 Initialiazing the Business model
@@ -64,3 +67,4 @@ class Post(models.Model):
     editor = models.ForeignKey(User)
     pub_date = models.DateTimeField(auto_now_add=True)
     post_image = models.ImageField(upload_to='pics/',null=True)
+    neighborhood = models.ForeignKey('Neighborhood',null=True)

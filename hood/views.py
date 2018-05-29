@@ -1,12 +1,12 @@
 from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.contrib.auth import login, authenticate,logout
-from hood.forms import SignUpForm,EditForm
+from hood.forms import SignUpForm,EditForm,NewPostForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes,force_text
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.template.loader import render_to_string
 from hood.tokens import account_activation_token
-from .models import Profile,Business,Neighborhood
+from .models import Profile,Business,Neighborhood,Post
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -57,10 +57,11 @@ def account_activation_sent(request):
 @login_required(login_url='/login')
 def index(request):
     current_user = request.user
-    profile = Profile.objects.all()
+    profile = Profile.objects.get(id=request.user.id)
+    hood_instance = Neighborhood.objects.filter(name=profile.neighborhood).first()
+    posts = Post.objects.filter(neighborhood=hood_instance)
 
-
-    return render(request, 'index.html')
+    return render(request, 'index.html',{'posts':posts})
 
 @login_required(login_url='/login')
 def profile(request):

@@ -2,52 +2,25 @@
 {% load static %}
 {% load bootstrap3 %}
 {% block content %}
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+{% for post in posts %}
+    <div class="well wrapper">
+      <div class='row dat'>
+        This post was posted by
+        <b>{{post.editor}}</b>
+        on
+        <br>{{post.pub_date}}</br>
+      </div>
+      <div class="post_image">
+        {% if post.post_image %}
+          <img src="{{post.post_image.url}}" class="img-responsive" alt="Image">
+        {% else %}
+          <img src="{% static 'images/image-not-found.jpg' %}" class="img-responsive" alt="Image">
+        {% endif %}
+      </div>
 
-<div class="container">
-	<div class="row">
+        {{post.description }}
 
-	    <div class="col-md-8 col-md-offset-2">
+    </div>
 
-    		<h1>Create post</h1>
-
-    		<form action="" method="POST">
-
-    		    <div class="form-group has-error">
-    		        <label for="slug">HOOD POST </label>
-    		        <input type="text" class="form-control" name="slug" />
-
-    		    </div>
-
-    		    <div class="form-group">
-    		        <label for="title">Title <span class="require">*</span></label>
-    		        <input type="text" class="form-control" name="title" />
-    		    </div>
-
-    		    <div class="form-group">
-    		        <label for="description">Description</label>
-    		        <textarea rows="5" class="form-control" name="description" ></textarea>
-    		    </div>
-
-    		    <div class="form-group">
-    		        <p><span class="require">*</span> - required fields</p>
-    		    </div>
-
-    		    <div class="form-group">
-    		        <button type="submit" class="btn btn-primary">
-    		            Create
-    		        </button>
-    		        <button class="btn btn-default">
-    		            Cancel
-    		        </button>
-    		    </div>
-
-    		</form>
-		</div>
-
-	</div>
-</div>
+  {% endfor %}
 {% endblock %}
